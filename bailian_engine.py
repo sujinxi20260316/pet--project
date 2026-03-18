@@ -17,7 +17,7 @@ class BailianDeepSeekEngine:
             - deepseek-r1: DeepSeek推理模型（推荐）
             - deepseek-v3: DeepSeek对话模型
         """
-        self.api_key = api_key or os.getenv("DASHSCOPE_API_KEY", "")
+        self.api_key = api_key or os.getenv("DASHSCOPE_API_KEY", "sk-92056511e9544b6ca02a58581746ea3e")
         self.model = model
 
         if not self.api_key:
