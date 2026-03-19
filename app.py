@@ -325,4 +325,5 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def bad() print('error')
+def bad():
+    print('error')
