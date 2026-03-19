@@ -1,58 +1,50 @@
 name: 自动格式化代码
 
-# 触发条件：当有人创建或更新 PR 时
 on:
   pull_request:
     branches: [ main ]
     paths:
-      - '**.py'  # 只有修改 .py 文件时才运行
+      - '**.py'
 
-# 权限设置：让机器人有权限提交代码
+# 修复权限问题
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
   auto-format:
-    # 这个任务只运行一次，不在多个 Python 版本上重复
     runs-on: ubuntu-latest
 
     steps:
-      # 步骤1：检出代码
       - name: 检出代码
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 步骤2：设置 Python
       - name: 设置 Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      # 步骤3：安装 Black 格式化工具
       - name: 安装 Black
         run: |
           pip install black
 
-      # 步骤4：运行 Black 格式化所有 Python 文件
       - name: 运行 Black 格式化
         run: |
           black .
 
-      # 步骤5：检查是否有文件被修改
-      - name: 检查格式化后的变化
+      - name: 检查是否有文件被修改
         id: git-check
         run: |
           git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
 
-      # 步骤6：如果有修改，提交回 PR
       - name: 提交格式化后的代码
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
-          git commit -m " 自动格式化代码 (by Black)"
+          git commit -m "自动格式化代码 (by Black)"
           git push
