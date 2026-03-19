@@ -352,6 +352,13 @@ st.markdown(
         ⚠️ 本系统仅供科普参考，不能替代专业兽医诊断
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
-)
+
+""", unsafe_allow_html=True)
+
+
+
+def bad():
+    print('error')
+
+
+
