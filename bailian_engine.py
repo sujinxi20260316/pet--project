@@ -1,6 +1,7 @@
 """
 阿里云百炼平台 - DeepSeek API 调用引擎
 """
+
 from dashscope import Generation
 import os
 import json
@@ -41,7 +42,9 @@ class BailianDeepSeekEngine:
 """
 
         if pet_info:
-            prompt += f"\n【宠物档案】\n{json.dumps(pet_info, ensure_ascii=False, indent=2)}"
+            prompt += (
+                f"\n【宠物档案】\n{json.dumps(pet_info, ensure_ascii=False, indent=2)}"
+            )
 
         return prompt
 
@@ -53,14 +56,14 @@ class BailianDeepSeekEngine:
             return {
                 "success": False,
                 "answer": "请先设置阿里云百炼 API Key",
-                "urgent": False
+                "urgent": False,
             }
 
         try:
             # 构建消息
             messages = [
                 {"role": "system", "content": self.build_system_prompt(pet_info)},
-                {"role": "user", "content": question}
+                {"role": "user", "content": question},
             ]
 
             # 调用 API
@@ -68,9 +71,9 @@ class BailianDeepSeekEngine:
                 api_key=self.api_key,
                 model=self.model,
                 messages=messages,
-                result_format='message',
+                result_format="message",
                 temperature=0.7,
-                max_tokens=2000
+                max_tokens=2000,
             )
 
             # 解析返回结果
@@ -79,9 +82,18 @@ class BailianDeepSeekEngine:
 
                 # 判断是否紧急
                 urgent_keywords = [
-                    "立即就医", "马上送医", "紧急", "致命",
-                    "抽搐", "吐血", "尿闭", "昏迷", "呼吸困难",
-                    "口吐白沫", "意识丧失", "休克"
+                    "立即就医",
+                    "马上送医",
+                    "紧急",
+                    "致命",
+                    "抽搐",
+                    "吐血",
+                    "尿闭",
+                    "昏迷",
+                    "呼吸困难",
+                    "口吐白沫",
+                    "意识丧失",
+                    "休克",
                 ]
                 is_urgent = any(kw in answer for kw in urgent_keywords)
 
@@ -89,21 +101,17 @@ class BailianDeepSeekEngine:
                     "success": True,
                     "answer": answer,
                     "urgent": is_urgent,
-                    "usage": response.usage
+                    "usage": response.usage,
                 }
             else:
                 return {
                     "success": False,
                     "answer": f"API调用失败：{response.message}",
-                    "urgent": False
+                    "urgent": False,
                 }
 
         except Exception as e:
-            return {
-                "success": False,
-                "answer": f"发生错误：{str(e)}",
-                "urgent": False
-            }
+            return {"success": False, "answer": f"发生错误：{str(e)}", "urgent": False}
 
 
 # 测试代码
