@@ -368,3 +368,6 @@ def bad() print('error')
 
 # 故意加的演示错误
 def bad() print('error')
+
+# 故意加的演示错误
+def bad() print('error')
