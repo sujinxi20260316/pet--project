@@ -6,17 +6,16 @@ from dashscope import Generation
 
 # ==================== 配置 ====================
 # 阿里云API配置
-DASHSCOPE_API_KEY = os.environ.get("DASHSCOPE_API_KEY", "sk-92056511e9544b6ca02a58581746ea3e")
-MODEL_NAME = "qwen-plus"  # 可选 qwen-turbo, qwen-plus, qwen-max
+MODEL_NAME = "deepseek-r1"  # 可选 qwen-turbo, qwen-plus, qwen-max
 
 # 输出文件名（固定，用于增量更新）
-OUTPUT_CSV = "pet_diseases_knowledge.csv"
+OUTPUT_CSV = "data/diseases.csv"
 
 # 物种列表（可自由增删）
 SPECIES_LIST = ["猫", "狗", "鸟", "兔", "仓鼠"]
 
 # 每个物种生成疾病名称的数量
-MAX_DISEASES = 50  # 可改为您需要的数量（如500）
+MAX_DISEASES = 20  # 可改为您需要的数量（如500）
 
 
 # ==================== 阿里云生成疾病名称 ====================
